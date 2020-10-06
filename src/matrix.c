@@ -57,17 +57,6 @@ matrix copy_matrix(matrix m)
     return c;
 }
 
-// Transpose a matrix
-// matrix m: matrix to be transposed
-// returns: matrix, result of transposition
-matrix transpose_matrix(matrix m)
-{
-    // TODO: 1.2 - Make a matrix the correct size, fill it in
-    matrix t = make_matrix(m.cols,m.rows);
-    transpose_matrix_helper(m.rows, m.cols, t.data, m.data, 0, 0);
-    return t;
-}
-
 void transpose_matrix_helper(int rows, int cols, float *out, float *in, int c_row, int c_col) {
     if (rows < 16 && cols < 16) {
         for(int i = c_row; i < c_row+rows; i++) {
@@ -86,6 +75,17 @@ void transpose_matrix_helper(int rows, int cols, float *out, float *in, int c_ro
         }
     }
 };
+
+// Transpose a matrix
+// matrix m: matrix to be transposed
+// returns: matrix, result of transposition
+matrix transpose_matrix(matrix m)
+{
+    // TODO: 1.2 - Make a matrix the correct size, fill it in
+    matrix t = make_matrix(m.cols,m.rows);
+    transpose_matrix_helper(m.rows, m.cols, t.data, m.data, 0, 0);
+    return t;
+}
 
 // Perform y = ax + y
 // float a: scalar for matrix x
