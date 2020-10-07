@@ -57,21 +57,21 @@ matrix copy_matrix(matrix m)
     return c;
 }
 
-void transpose_matrix_helper(int rows, int cols, float *out, float *in, int c_row, int c_col) {
-    if (rows < 16 && cols < 16) {
+void transpose_matrix_helper(int total_rows, int total_cols, int rows, int cols, float *out, float *in, int c_row, int c_col) {
+    if (rows < 32 && cols < 32) {
         for(int i = c_row; i < c_row+rows; i++) {
             for (int j = c_col; j < c_col+cols; j++)
             {
-                out[j*rows + i] = in[i*cols + j];
+                out[j*total_rows + i] = in[i*total_cols + j];
             }
         }      
     } else {
         if (rows > cols) {
-            transpose_matrix_helper(rows / 2, cols, out, in, c_row, c_col);
-            transpose_matrix_helper((rows / 2) + rows % 2, cols, out, in, c_row + (rows / 2), c_col);
+            transpose_matrix_helper(total_rows, total_cols, rows / 2, cols, out, in, c_row, c_col);
+            transpose_matrix_helper(total_rows, total_cols, (rows / 2) + rows % 2, cols, out, in, c_row + (rows / 2), c_col);
         } else {
-            transpose_matrix_helper(rows, cols / 2, out, in, c_row, c_col);
-            transpose_matrix_helper(rows, (cols / 2) + cols % 2, out, in, c_row, c_col + (cols / 2));
+            transpose_matrix_helper(total_rows, total_cols, rows, cols / 2, out, in, c_row, c_col);
+            transpose_matrix_helper(total_rows, total_cols, rows, (cols / 2) + cols % 2, out, in, c_row, c_col + (cols / 2));
         }
     }
 };
@@ -83,7 +83,7 @@ matrix transpose_matrix(matrix m)
 {
     // TODO: 1.2 - Make a matrix the correct size, fill it in
     matrix t = make_matrix(m.cols,m.rows);
-    transpose_matrix_helper(m.rows, m.cols, t.data, m.data, 0, 0);
+    transpose_matrix_helper(m.rows, m.cols, m.rows, m.cols, t.data, m.data, 0, 0);
     return t;
 }
 
