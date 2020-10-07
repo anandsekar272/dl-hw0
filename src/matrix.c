@@ -60,7 +60,7 @@ matrix copy_matrix(matrix m)
 void transpose_matrix_helper(int total_rows, int total_cols, int rows, int cols, float *out, float *in, int c_row, int c_col) {
     if (rows < 32 && cols < 32) {
         for(int i = c_row; i < c_row+rows; i++) {
-            for (int j = c_col; j < c_col+cols; j++)
+            for(int j = c_col; j < c_col+cols; j++)
             {
                 out[j*total_rows + i] = in[i*total_cols + j];
             }
@@ -96,7 +96,12 @@ void axpy_matrix(float a, matrix x, matrix y)
     assert(x.cols == y.cols);
     assert(x.rows == y.rows);
     // TODO: 1.3 - Perform the weighted sum, store result back in y
-    
+    for(int i = 0; i < x.rows; i++) {
+            for(int j = 0; j < x.cols; j++)
+            {
+                y.data[i * y.cols + j] = a * x.data[i * x.cols + j] + y.data[i * y.cols + j];
+            }
+        }  
 }
 
 // Perform matrix multiplication a*b, return result
